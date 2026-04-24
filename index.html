@@ -94,7 +94,7 @@
 
   .board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 6px;
   }
 
@@ -499,7 +499,7 @@
 <div id="app">
   <div class="title-bar">
     🎨 Art Jeopardy!
-    <span>Art Appreciation Edition — 20 Masterpieces</span>
+    <span>Art Appreciation Edition — 25 Masterpieces</span>
   </div>
 
   <div class="main">
@@ -615,6 +615,16 @@ const CATEGORIES = [
       { pts:300, art:"Marilyn Diptych",            artist:"Andy Warhol",            clue:"This silkscreen repeats Marilyn Monroe's face 50 times — half in vivid color, half fading to black and white.",    answer:"What is the Marilyn Diptych by Andy Warhol?" },
       { pts:400, art:"Campbell's Soup Cans",       artist:"Andy Warhol",            clue:"This 1962 Pop Art work shows 32 canvases of everyday supermarket cans, challenging what counts as 'fine art.'",    answer:"What are Campbell's Soup Cans by Andy Warhol?" },
       { pts:500, art:"L.H.O.O.Q.",                artist:"Marcel Duchamp",         clue:"Duchamp defaced a postcard of the Mona Lisa by drawing a mustache on it — titled with initials spelling a French phrase.", answer:"What is L.H.O.O.Q. by Marcel Duchamp?" }
+    ]
+  },
+  {
+    name: "Iconic Paintings", color: "#8C2F39",
+    items: [
+      { pts:100, art:"American Gothic",       artist:"Grant Wood",                  clue:"This famous American painting shows a stern farmer holding a pitchfork beside a woman standing in front of a farmhouse.", answer:"What is American Gothic by Grant Wood?" },
+      { pts:200, art:"Luncheon on the Grass", artist:"Édouard Manet",               clue:"This controversial 1863 painting shocked Paris audiences by showing a nude woman picnicking with clothed men.", answer:"What is Luncheon on the Grass by Édouard Manet?" },
+      { pts:300, art:"L'Absinthe",            artist:"Edgar Degas",                 clue:"This painting depicts two lonely café patrons seated together, often interpreted as a study of urban isolation.", answer:"What is L'Absinthe by Edgar Degas?" },
+      { pts:400, art:"La Tricoteuse",         artist:"William-Adolphe Bouguereau",  clue:"This academic painting portrays a young woman knitting quietly with remarkable realism and delicate detail.", answer:"What is La Tricoteuse by Bouguereau?" },
+      { pts:500, art:"Charles the First",     artist:"Jean-Michel Basquiat",        clue:"This 1982 neo-expressionist work honors jazz legend Charlie Parker using symbols, text, and a crowned figure.", dd:true, answer:"What is Charles the First by Jean-Michel Basquiat?" }
     ]
   }
 ];
