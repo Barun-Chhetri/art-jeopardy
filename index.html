@@ -830,9 +830,15 @@ function revealAnswer() {
   document.getElementById('btn-reveal').style.display = 'none';
 
   const aw = document.getElementById('award-teams');
-  aw.innerHTML = TEAMS.map((t, i) =>
-    `<button class="award-btn" style="background:${t.color}" onclick="awardTeam(${i})">${t.name}</button>`
-  ).join('');
+
+  aw.innerHTML = TEAMS.map((t, i) => `
+    <label class="award-btn" style="background:${t.color}; cursor:pointer;">
+      <input type="checkbox" value="${i}" style="margin-right:6px;">
+      ${t.name}
+    </label>
+  `).join('') + `
+    <button class="btn-gold" onclick="awardSelectedTeams()">Award Selected</button>
+  `;
 
   document.getElementById('award-section').style.display = 'block';
 }
@@ -842,6 +848,15 @@ function awardTeam(i) {
   closeModal();
 }
 
+function awardSelectedTeams() {
+  const selected = document.querySelectorAll('#award-teams input[type="checkbox"]:checked');
+
+  selected.forEach(box => {
+    adjustScore(Number(box.value), currentPts);
+  });
+
+  closeModal();
+}
 function closeModal() {
   clearInterval(modalTimerInterval);
 
