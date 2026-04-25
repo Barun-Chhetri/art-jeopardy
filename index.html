@@ -854,18 +854,35 @@ function closeModal() {
   document.getElementById('timer-bar').style.background = '#F5C518';
 }
 
+function getRankLabel(score, scores) {
+  const rank = scores.filter(s => s > score).length + 1;
+
+  if (rank === 1) return "1st Place";
+  if (rank === 2) return "2nd Place";
+  if (rank === 3) return "3rd Place";
+  return rank + "th Place";
+}
+
 function showFinalScores() {
   const sorted = [...TEAMS].sort((a, b) => b.score - a.score);
+  const scores = sorted.map(t => t.score);
+  const highestScore = scores[0];
+
   const grid = document.getElementById('final-grid');
 
-  grid.innerHTML = sorted.map((t, i) => `
-    <div class="final-card ${i === 0 ? 'first' : ''}" style="background:${t.color}22; border-color:${i === 0 ? '#F5C518' : t.color + '44'}">
-      ${i === 0 ? '<span class="crown">👑</span>' : ''}
-      <div class="final-rank">${['1st','2nd','3rd','4th','5th','6th'][i]} Place</div>
-      <div class="final-tname">${t.name}</div>
-      <div class="final-tscore">$${t.score}</div>
-    </div>
-  `).join('');
+  grid.innerHTML = sorted.map((t) => {
+    const rankLabel = getRankLabel(t.score, scores);
+    const isFirst = t.score === highestScore;
+
+    return `
+      <div class="final-card ${isFirst ? 'first' : ''}" style="background:${t.color}22; border-color:${isFirst ? '#F5C518' : t.color + '44'}">
+        ${isFirst ? '<span class="crown">👑</span>' : ''}
+        <div class="final-rank">${rankLabel}</div>
+        <div class="final-tname">${t.name}</div>
+        <div class="final-tscore">$${t.score}</div>
+      </div>
+    `;
+  }).join('');
 
   document.getElementById('final-screen').classList.add('show');
   launchConfetti();
