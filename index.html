@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Art Jeopardy! — Art Appreciation Edition</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -31,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* ── SCANLINE TEXTURE ── */
   body::before {
     content: '';
     position: fixed;
@@ -47,14 +46,12 @@
     z-index: 9999;
   }
 
-  /* ── LAYOUT ── */
   #app {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
   }
 
-  /* ── TITLE BAR ── */
   .title-bar {
     background: var(--gold);
     color: var(--navy);
@@ -68,6 +65,7 @@
     position: relative;
     box-shadow: 0 4px 20px rgba(245,197,24,0.4);
   }
+
   .title-bar span {
     font-size: 0.55em;
     display: block;
@@ -77,7 +75,6 @@
     margin-top: 2px;
   }
 
-  /* ── MAIN CONTENT ── */
   .main {
     flex: 1;
     display: grid;
@@ -89,7 +86,6 @@
     width: 100%;
   }
 
-  /* ── BOARD ── */
   .board-wrap { display: flex; flex-direction: column; gap: 14px; }
 
   .board {
@@ -135,30 +131,29 @@
     position: relative;
     overflow: hidden;
   }
-  .cell::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(245,197,24,0);
-    transition: background 0.15s;
-  }
+
   .cell:hover:not(.used) {
     background: #2A4A8A;
     border-color: var(--gold);
     transform: scale(1.03);
     box-shadow: 0 0 20px rgba(245,197,24,0.3);
   }
+
   .cell:active:not(.used) { transform: scale(0.97); }
+
   .cell.used {
     background: #0a1220;
     color: #1a2840;
     cursor: default;
-    border-color: transparent;
   }
-  .cell.dd { background: #3d0a6b; border-color: #9b59b6; }
-  .cell.dd:hover:not(.used) { background: var(--purple); box-shadow: 0 0 20px rgba(123,45,139,0.5); }
 
-  /* ── TIMER BAR ── */
+  .cell.dd { background: #3d0a6b; border-color: #9b59b6; }
+
+  .cell.dd:hover:not(.used) {
+    background: var(--purple);
+    box-shadow: 0 0 20px rgba(123,45,139,0.5);
+  }
+
   .timer-row {
     display: flex;
     align-items: center;
@@ -167,8 +162,17 @@
     border-radius: 8px;
     padding: 10px 14px;
   }
+
   .timer-label { font-size: 13px; color: #aaa; min-width: 70px; }
-  .timer-bar-wrap { flex: 1; background: #1a2840; border-radius: 100px; height: 10px; overflow: hidden; }
+
+  .timer-bar-wrap {
+    flex: 1;
+    background: #1a2840;
+    border-radius: 100px;
+    height: 10px;
+    overflow: hidden;
+  }
+
   .timer-bar-fill {
     height: 100%;
     background: var(--gold);
@@ -176,9 +180,16 @@
     transition: width 1s linear, background 0.5s;
     width: 100%;
   }
-  .timer-count { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--gold); min-width: 36px; text-align: right; }
 
-  /* ── SIDEBAR ── */
+  .timer-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 36px;
+    text-align: right;
+  }
+
   .sidebar { display: flex; flex-direction: column; gap: 12px; }
 
   .panel {
@@ -187,6 +198,7 @@
     padding: 14px;
     border: 1px solid rgba(245,197,24,0.1);
   }
+
   .panel-title {
     font-size: 11px;
     font-weight: 700;
@@ -197,8 +209,8 @@
     text-align: center;
   }
 
-  /* ── TEAMS ── */
   .teams-list { display: flex; flex-direction: column; gap: 6px; }
+
   .team-row {
     display: flex;
     align-items: center;
@@ -208,44 +220,44 @@
     padding: 7px 10px;
     border-left: 4px solid transparent;
   }
-  .team-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .team-name { flex: 1; font-size: 13px; font-weight: 500; }
-  .team-score { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gold); min-width: 52px; text-align: right; }
-  .team-btns { display: flex; gap: 3px; }
-  .team-btns button {
-    width: 22px; height: 22px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.07); color: #fff; font-size: 14px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; line-height: 1;
-    transition: background 0.1s;
+
+  .team-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
   }
+
+  .team-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .team-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 52px;
+    text-align: right;
+  }
+
+  .team-btns { display: flex; gap: 3px; }
+
+  .team-btns button {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.07);
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
   .team-btns button:hover { background: rgba(255,255,255,0.15); }
 
-  /* ── QR PANEL ── */
-  .qr-panel { text-align: center; }
-  #qrcode { display: flex; justify-content: center; margin: 8px 0; }
-  #qrcode canvas, #qrcode img { border-radius: 8px; border: 3px solid var(--gold); }
-  .join-code {
-    font-family: 'Playfair Display', serif;
-    font-size: 24px;
-    font-weight: 900;
-    color: var(--gold);
-    letter-spacing: 4px;
-    margin: 6px 0 2px;
-  }
-  .join-sub { font-size: 10px; color: #888; }
-  .player-pill {
-    display: inline-block;
-    background: rgba(45,198,83,0.15);
-    border: 1px solid rgba(45,198,83,0.4);
-    color: var(--green);
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 100px;
-    margin-top: 8px;
-  }
-
-  /* ── RESET BTN ── */
   .btn-reset {
     width: 100%;
     padding: 8px;
@@ -259,9 +271,9 @@
     letter-spacing: 1px;
     transition: all 0.15s;
   }
+
   .btn-reset:hover { background: rgba(230,57,70,0.15); }
 
-  /* ── MODAL ── */
   #modal-overlay {
     display: none;
     position: fixed;
@@ -273,6 +285,7 @@
     padding: 20px;
     backdrop-filter: blur(4px);
   }
+
   #modal-overlay.show { display: flex; }
 
   .modal {
@@ -285,11 +298,6 @@
     text-align: center;
     position: relative;
     box-shadow: 0 0 60px rgba(245,197,24,0.2);
-    animation: modalIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
-  }
-  @keyframes modalIn {
-    from { transform: scale(0.85); opacity: 0; }
-    to   { transform: scale(1);    opacity: 1; }
   }
 
   .modal-cat {
@@ -300,6 +308,7 @@
     text-transform: uppercase;
     margin-bottom: 8px;
   }
+
   .modal-pts {
     font-family: 'Playfair Display', serif;
     font-size: 52px;
@@ -307,8 +316,8 @@
     color: var(--gold);
     line-height: 1;
     margin-bottom: 20px;
-    text-shadow: 0 0 30px rgba(245,197,24,0.5);
   }
+
   .dd-badge {
     display: none;
     background: var(--purple);
@@ -321,6 +330,7 @@
     margin: 0 auto 14px;
     width: fit-content;
   }
+
   .modal-clue {
     font-family: 'Playfair Display', serif;
     font-size: clamp(18px, 2.5vw, 24px);
@@ -329,23 +339,36 @@
     margin-bottom: 24px;
   }
 
-  /* Modal timer */
   .modal-timer {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
   }
-  .modal-timer-bar { flex: 1; background: #1a2840; border-radius: 100px; height: 8px; overflow: hidden; }
+
+  .modal-timer-bar {
+    flex: 1;
+    background: #1a2840;
+    border-radius: 100px;
+    height: 8px;
+    overflow: hidden;
+  }
+
   .modal-timer-fill {
     height: 100%;
     background: var(--gold);
     border-radius: 100px;
     transition: width 1s linear, background 0.5s;
   }
-  .modal-timer-num { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); min-width: 30px; }
 
-  /* Answer reveal */
+  .modal-timer-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    min-width: 30px;
+  }
+
   .answer-box {
     display: none;
     background: rgba(0,0,0,0.4);
@@ -353,9 +376,8 @@
     border-radius: 10px;
     padding: 18px;
     margin-bottom: 20px;
-    animation: fadeIn 0.3s ease;
   }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+
   .answer-art {
     font-family: 'Playfair Display', serif;
     font-size: 26px;
@@ -363,13 +385,33 @@
     color: var(--gold);
     margin-bottom: 4px;
   }
-  .answer-artist { font-size: 15px; color: var(--cream); font-style: italic; margin-bottom: 10px; }
+
+  .answer-artist {
+    font-size: 15px;
+    color: var(--cream);
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+
   .answer-phrase { font-size: 15px; color: #ccc; }
 
-  /* Award section */
   .award-section { display: none; margin-bottom: 18px; }
-  .award-label { font-size: 12px; color: #aaa; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
-  .award-teams { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+
+  .award-label {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .award-teams {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
   .award-btn {
     padding: 8px 18px;
     border-radius: 8px;
@@ -378,13 +420,15 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.5px;
   }
-  .award-btn:hover { filter: brightness(1.2); transform: scale(1.05); }
 
-  /* Modal buttons */
-  .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   .btn-gold {
     padding: 12px 28px;
     background: var(--gold);
@@ -394,10 +438,9 @@
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.15s;
     font-family: 'DM Sans', sans-serif;
   }
-  .btn-gold:hover { background: #ffd340; transform: scale(1.03); }
+
   .btn-ghost {
     padding: 12px 28px;
     background: transparent;
@@ -406,12 +449,9 @@
     border-radius: 8px;
     font-size: 15px;
     cursor: pointer;
-    transition: all 0.15s;
     font-family: 'DM Sans', sans-serif;
   }
-  .btn-ghost:hover { background: rgba(255,255,255,0.07); color: #fff; }
 
-  /* ── FINAL SCORES SCREEN ── */
   #final-screen {
     display: none;
     position: fixed;
@@ -423,7 +463,9 @@
     justify-content: center;
     padding: 40px 20px;
   }
+
   #final-screen.show { display: flex; }
+
   .final-title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(32px, 5vw, 56px);
@@ -431,9 +473,16 @@
     color: var(--gold);
     text-align: center;
     margin-bottom: 8px;
-    text-shadow: 0 0 40px rgba(245,197,24,0.4);
   }
-  .final-sub { font-size: 14px; color: #aaa; margin-bottom: 40px; letter-spacing: 2px; text-transform: uppercase; }
+
+  .final-sub {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
   .final-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -442,19 +491,48 @@
     width: 100%;
     margin-bottom: 40px;
   }
+
   .final-card {
     border-radius: 12px;
     padding: 20px 14px;
     text-align: center;
     border: 2px solid rgba(255,255,255,0.1);
-    position: relative;
-    overflow: hidden;
   }
-  .final-card.first { border-color: var(--gold); box-shadow: 0 0 30px rgba(245,197,24,0.3); }
-  .final-rank { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-  .final-tname { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-  .final-tscore { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--gold); }
-  .crown { font-size: 28px; display: block; margin-bottom: 4px; }
+
+  .final-card.first {
+    border-color: var(--gold);
+    box-shadow: 0 0 30px rgba(245,197,24,0.3);
+  }
+
+  .final-rank {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .final-tname {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .final-tscore {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--gold);
+  }
+
+  .crown {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
   .btn-play-again {
     padding: 14px 40px;
     background: var(--gold);
@@ -465,12 +543,8 @@
     font-weight: 700;
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
-    transition: all 0.15s;
-    letter-spacing: 1px;
   }
-  .btn-play-again:hover { background: #ffd340; transform: scale(1.03); }
 
-  /* ── CONFETTI ── */
   .confetti-piece {
     position: fixed;
     width: 10px;
@@ -481,12 +555,12 @@
     z-index: 700;
     pointer-events: none;
   }
+
   @keyframes confettiFall {
-    0%   { transform: translateY(0) rotate(0deg);   opacity: 1; }
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
   }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 700px) {
     .main { grid-template-columns: 1fr; }
     .sidebar { flex-direction: row; flex-wrap: wrap; }
@@ -495,42 +569,33 @@
   }
 </style>
 </head>
+
 <body>
 <div id="app">
   <div class="title-bar">
     🎨 Art Jeopardy!
-    <span>Art Appreciation Edition — 25 Masterpieces</span>
+    <span>Art Appreciation Edition — 20 Masterpieces</span>
   </div>
 
   <div class="main">
-    <!-- BOARD -->
     <div class="board-wrap">
       <div class="board" id="board"></div>
+
       <div class="timer-row">
         <div class="timer-label" id="timer-label">Pick a clue</div>
-        <div class="timer-bar-wrap"><div class="timer-bar-fill" id="timer-bar" style="width:100%"></div></div>
+        <div class="timer-bar-wrap">
+          <div class="timer-bar-fill" id="timer-bar" style="width:100%"></div>
+        </div>
         <div class="timer-count" id="timer-count">—</div>
       </div>
     </div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
-      <!-- Teams -->
       <div class="panel">
         <div class="panel-title">Team Scores</div>
         <div class="teams-list" id="teams-list"></div>
       </div>
 
-      <!-- QR -->
-      <div class="panel qr-panel">
-        <div class="panel-title">Join the Game</div>
-        <div id="qrcode"></div>
-        <div class="join-code" id="join-code">ART2025</div>
-        <div class="join-sub">Scan QR or go to the link</div>
-        <div class="player-pill" id="player-count">0 students joined</div>
-      </div>
-
-      <!-- Reset -->
       <div class="panel">
         <button class="btn-reset" onclick="showFinalScores()">End Game &amp; Show Scores</button>
         <button class="btn-reset" onclick="resetGame()" style="margin-top:6px;border-color:rgba(255,255,255,0.2);color:#aaa">Reset Board</button>
@@ -539,26 +604,31 @@
   </div>
 </div>
 
-<!-- CLUE MODAL -->
 <div id="modal-overlay">
   <div class="modal">
     <div class="modal-cat" id="m-cat"></div>
     <div class="dd-badge" id="m-dd">⭐ DAILY DOUBLE!</div>
     <div class="modal-pts" id="m-pts"></div>
     <div class="modal-clue" id="m-clue"></div>
+
     <div class="modal-timer">
-      <div class="modal-timer-bar"><div class="modal-timer-fill" id="modal-timer-fill"></div></div>
+      <div class="modal-timer-bar">
+        <div class="modal-timer-fill" id="modal-timer-fill"></div>
+      </div>
       <div class="modal-timer-num" id="modal-timer-num">30</div>
     </div>
+
     <div class="answer-box" id="m-ans">
       <div class="answer-art" id="m-art"></div>
       <div class="answer-artist" id="m-artist"></div>
       <div class="answer-phrase" id="m-phrase"></div>
     </div>
+
     <div class="award-section" id="award-section">
       <div class="award-label">Award points to:</div>
       <div class="award-teams" id="award-teams"></div>
     </div>
+
     <div class="modal-actions">
       <button class="btn-gold" id="btn-reveal" onclick="revealAnswer()">Reveal Answer</button>
       <button class="btn-ghost" onclick="closeModal()">Close</button>
@@ -566,7 +636,6 @@
   </div>
 </div>
 
-<!-- FINAL SCORES SCREEN -->
 <div id="final-screen">
   <div class="final-title">🏆 Final Scores!</div>
   <div class="final-sub">Art Jeopardy — Art Appreciation Edition</div>
@@ -575,56 +644,55 @@
 </div>
 
 <script>
-/* ─── DATA ─── */
 const CATEGORIES = [
   {
-    name: "Old Masters", color: "#183A8C",
+    name: "Old Masters",
+    color: "#183A8C",
     items: [
-      { pts:100, art:"Mona Lisa",            artist:"Leonardo da Vinci",       clue:"This smiling lady in the Louvre is arguably the world's most famous painting.",                                            answer:"What is the Mona Lisa by Leonardo da Vinci?" },
-      { pts:200, art:"The Last Supper",       artist:"Leonardo da Vinci",       clue:"This mural depicts Christ announcing that one disciple will betray him at their final dinner together.",                  answer:"What is The Last Supper by Leonardo da Vinci?" },
-      { pts:300, art:"Las Meninas",           artist:"Diego Velázquez",         clue:"The artist himself appears in this Spanish Baroque masterpiece while a princess is attended by her ladies-in-waiting.",   answer:"What is Las Meninas by Velázquez?" },
-      { pts:400, art:"The Third of May 1808", artist:"Francisco Goya",          clue:"A man in a white shirt raises his arms before a firing squad in this Romantic anti-war masterpiece.",                     answer:"What is The Third of May, 1808 by Goya?" },
-      { pts:500, art:"Raft of the Medusa",    artist:"Théodore Géricault",      clue:"Survivors of a real French naval disaster desperately signal a distant ship in this massive Romantic painting.", dd:true, answer:"What is The Raft of the Medusa by Géricault?" }
+      { pts:100, art:"Mona Lisa", artist:"Leonardo da Vinci", clue:"This smiling lady in the Louvre is arguably the world's most famous painting.", answer:"What is the Mona Lisa by Leonardo da Vinci?" },
+      { pts:200, art:"The Last Supper", artist:"Leonardo da Vinci", clue:"This mural depicts Christ announcing that one disciple will betray him at their final dinner together.", answer:"What is The Last Supper by Leonardo da Vinci?" },
+      { pts:300, art:"Las Meninas", artist:"Diego Velázquez", clue:"The artist himself appears in this Spanish Baroque masterpiece while a princess is attended by her ladies-in-waiting.", answer:"What is Las Meninas by Velázquez?" },
+      { pts:400, art:"The Third of May 1808", artist:"Francisco Goya", clue:"A man in a white shirt raises his arms before a firing squad in this Romantic anti-war masterpiece.", answer:"What is The Third of May, 1808 by Goya?" }
     ]
   },
   {
-    name: "Modern & Impressionist", color: "#4B1A8C",
+    name: "Modern & Impressionist",
+    color: "#4B1A8C",
     items: [
-      { pts:100, art:"The Starry Night",              artist:"Vincent van Gogh",  clue:"Swirling night sky and glowing village — Van Gogh painted this from his room at an asylum in Saint-Rémy.",           answer:"What is The Starry Night by Van Gogh?" },
-      { pts:200, art:"Water Lilies",                  artist:"Claude Monet",      clue:"This series of ~250 paintings depicts the flower pond at the artist's garden in Giverny.",                            answer:"What are the Water Lilies by Monet?" },
-      { pts:300, art:"The Persistence of Memory",     artist:"Salvador Dalí",     clue:"Melting clocks draped over a surreal landscape symbolize the fluidity of time in this 1931 Surrealist icon.", dd:true, answer:"What is The Persistence of Memory by Dalí?" },
-      { pts:400, art:"Guernica",                      artist:"Pablo Picasso",     clue:"Painted in 1937 as a protest against the bombing of a Basque town — entirely in black and white.",                   answer:"What is Guernica by Picasso?" },
-      { pts:500, art:"Autumn Rhythm No. 30",          artist:"Jackson Pollock",   clue:"Pollock created this massive drip painting by moving around a canvas on the floor and flinging paint.",               answer:"What is Autumn Rhythm by Jackson Pollock?" }
+      { pts:100, art:"The Starry Night", artist:"Vincent van Gogh", clue:"Swirling night sky and glowing village — Van Gogh painted this from his room at an asylum in Saint-Rémy.", answer:"What is The Starry Night by Van Gogh?" },
+      { pts:200, art:"Water Lilies", artist:"Claude Monet", clue:"This series of about 250 paintings depicts the flower pond at the artist's garden in Giverny.", answer:"What are the Water Lilies by Monet?" },
+      { pts:300, art:"The Persistence of Memory", artist:"Salvador Dalí", clue:"Melting clocks draped over a surreal landscape symbolize the fluidity of time in this 1931 Surrealist icon.", dd:true, answer:"What is The Persistence of Memory by Dalí?" },
+      { pts:400, art:"Guernica", artist:"Pablo Picasso", clue:"Painted in 1937 as a protest against the bombing of a Basque town, this work is entirely in black and white.", answer:"What is Guernica by Picasso?" }
     ]
   },
   {
-    name: "Sculpture & Renaissance", color: "#1A6B3A",
+    name: "Sculpture & Renaissance",
+    color: "#1A6B3A",
     items: [
-      { pts:100, art:"David",                  artist:"Michelangelo",    clue:"This 17-foot marble statue in Florence depicts the biblical hero just before his battle with Goliath.",                         answer:"What is David by Michelangelo?" },
-      { pts:200, art:"Sistine Chapel Ceiling", artist:"Michelangelo",    clue:"This famous Vatican ceiling features scenes from Genesis including the iconic 'Creation of Adam.'",                            answer:"What is the Sistine Chapel Ceiling by Michelangelo?" },
-      { pts:300, art:"School of Athens",       artist:"Raphael",         clue:"This Vatican fresco shows ancient Greek philosophers — Plato and Aristotle center stage — in an idealized academy.",           answer:"What is The School of Athens by Raphael?" },
-      { pts:400, art:"The Thinker",            artist:"Auguste Rodin",   clue:"Originally titled 'The Poet,' this famous bronze figure sits hunched in deep contemplation — one of the world's most recognized sculptures.", answer:"What is The Thinker by Rodin?" },
-      { pts:500, art:"Balloon Dog",            artist:"Jeff Koons",      clue:"This shiny stainless steel sculpture mimics a balloon animal — one sold for $58.4 million, a record for a living artist.",    answer:"What is Balloon Dog by Jeff Koons?" }
+      { pts:100, art:"David", artist:"Michelangelo", clue:"This 17-foot marble statue in Florence depicts the biblical hero just before his battle with Goliath.", answer:"What is David by Michelangelo?" },
+      { pts:200, art:"Sistine Chapel Ceiling", artist:"Michelangelo", clue:"This famous Vatican ceiling features scenes from Genesis, including the iconic Creation of Adam.", answer:"What is the Sistine Chapel Ceiling by Michelangelo?" },
+      { pts:300, art:"School of Athens", artist:"Raphael", clue:"This Vatican fresco shows ancient Greek philosophers, with Plato and Aristotle at the center.", answer:"What is The School of Athens by Raphael?" },
+      { pts:400, art:"The Thinker", artist:"Auguste Rodin", clue:"Originally titled The Poet, this famous bronze figure sits hunched in deep contemplation.", answer:"What is The Thinker by Rodin?" }
     ]
   },
   {
-    name: "Portraits & Pop Art", color: "#7A4800",
+    name: "Portraits & Pop Art",
+    color: "#7A4800",
     items: [
-      { pts:100, art:"Girl with a Pearl Earring", artist:"Johannes Vermeer",       clue:"Often called the 'Mona Lisa of the North,' this Dutch painting shows a young woman glancing over her shoulder.",     answer:"What is Girl with a Pearl Earring by Vermeer?" },
-      { pts:200, art:"Whistler's Mother",          artist:"James McNeill Whistler", clue:"Officially 'Arrangement in Grey and Black No. 1,' this iconic seated portrait became a symbol of American motherhood.", answer:"What is Whistler's Mother by Whistler?" },
-      { pts:300, art:"Marilyn Diptych",            artist:"Andy Warhol",            clue:"This silkscreen repeats Marilyn Monroe's face 50 times — half in vivid color, half fading to black and white.",    answer:"What is the Marilyn Diptych by Andy Warhol?" },
-      { pts:400, art:"Campbell's Soup Cans",       artist:"Andy Warhol",            clue:"This 1962 Pop Art work shows 32 canvases of everyday supermarket cans, challenging what counts as 'fine art.'",    answer:"What are Campbell's Soup Cans by Andy Warhol?" },
-      { pts:500, art:"L.H.O.O.Q.",                artist:"Marcel Duchamp",         clue:"Duchamp defaced a postcard of the Mona Lisa by drawing a mustache on it — titled with initials spelling a French phrase.", answer:"What is L.H.O.O.Q. by Marcel Duchamp?" }
+      { pts:100, art:"Girl with a Pearl Earring", artist:"Johannes Vermeer", clue:"Often called the Mona Lisa of the North, this Dutch painting shows a young woman glancing over her shoulder.", answer:"What is Girl with a Pearl Earring by Vermeer?" },
+      { pts:200, art:"Whistler's Mother", artist:"James McNeill Whistler", clue:"Officially titled Arrangement in Grey and Black No. 1, this seated portrait became a symbol of American motherhood.", answer:"What is Whistler's Mother by Whistler?" },
+      { pts:300, art:"Marilyn Diptych", artist:"Andy Warhol", clue:"This silkscreen repeats Marilyn Monroe's face 50 times, half in vivid color and half fading to black and white.", answer:"What is the Marilyn Diptych by Andy Warhol?" },
+      { pts:400, art:"Campbell's Soup Cans", artist:"Andy Warhol", clue:"This 1962 Pop Art work shows 32 canvases of everyday supermarket cans.", answer:"What are Campbell's Soup Cans by Andy Warhol?" }
     ]
   },
   {
-    name: "Iconic Paintings", color: "#8C2F39",
+    name: "Iconic Paintings",
+    color: "#8C2F39",
     items: [
-      { pts:100, art:"American Gothic",       artist:"Grant Wood",                  clue:"This famous American painting shows a stern farmer holding a pitchfork beside a woman standing in front of a farmhouse.", answer:"What is American Gothic by Grant Wood?" },
-      { pts:200, art:"Luncheon on the Grass", artist:"Édouard Manet",               clue:"This controversial 1863 painting shocked Paris audiences by showing a nude woman picnicking with clothed men.", answer:"What is Luncheon on the Grass by Édouard Manet?" },
-      { pts:300, art:"L'Absinthe",            artist:"Edgar Degas",                 clue:"This painting depicts two lonely café patrons seated together, often interpreted as a study of urban isolation.", answer:"What is L'Absinthe by Edgar Degas?" },
-      { pts:400, art:"La Tricoteuse",         artist:"William-Adolphe Bouguereau",  clue:"This academic painting portrays a young woman knitting quietly with remarkable realism and delicate detail.", answer:"What is La Tricoteuse by Bouguereau?" },
-      { pts:500, art:"Charles the First",     artist:"Jean-Michel Basquiat",        clue:"This 1982 neo-expressionist work honors jazz legend Charlie Parker using symbols, text, and a crowned figure.", dd:true, answer:"What is Charles the First by Jean-Michel Basquiat?" }
+      { pts:100, art:"American Gothic", artist:"Grant Wood", clue:"This famous American painting shows a stern farmer holding a pitchfork beside a woman in front of a farmhouse.", answer:"What is American Gothic by Grant Wood?" },
+      { pts:200, art:"Luncheon on the Grass", artist:"Édouard Manet", clue:"This controversial 1863 painting shocked Paris audiences by showing a nude woman picnicking with clothed men.", answer:"What is Luncheon on the Grass by Édouard Manet?" },
+      { pts:300, art:"L'Absinthe", artist:"Edgar Degas", clue:"This painting depicts two lonely café patrons seated together, often interpreted as a study of urban isolation.", answer:"What is L'Absinthe by Edgar Degas?" },
+      { pts:400, art:"La Tricoteuse", artist:"William-Adolphe Bouguereau", clue:"This academic painting portrays a young woman knitting quietly with remarkable realism and delicate detail.", answer:"What is La Tricoteuse by Bouguereau?" }
     ]
   }
 ];
@@ -638,18 +706,15 @@ const TEAMS = [
   { name:"Team 6", color:"#0D9488", score:0 }
 ];
 
-/* ─── STATE ─── */
 const used = new Set();
 let currentItem = null;
-let currentPts  = 0;
-let timerInterval = null;
+let currentPts = 0;
 let modalTimerInterval = null;
-let playerCount = 0;
 
-/* ─── BUILD BOARD ─── */
 function buildBoard() {
   const board = document.getElementById('board');
   board.innerHTML = '';
+
   CATEGORIES.forEach(cat => {
     const h = document.createElement('div');
     h.className = 'cat-head';
@@ -657,36 +722,45 @@ function buildBoard() {
     h.textContent = cat.name;
     board.appendChild(h);
   });
-  for (let r = 0; r < 5; r++) {
+
+  for (let r = 0; r < 4; r++) {
     CATEGORIES.forEach((cat, ci) => {
       const item = cat.items[r];
-      const key  = ci + '-' + r;
+      const key = ci + '-' + r;
       const cell = document.createElement('div');
       const isUsed = used.has(key);
+
       cell.className = 'cell' + (item.dd ? ' dd' : '') + (isUsed ? ' used' : '');
       cell.textContent = isUsed ? '' : '$' + item.pts;
-      if (!isUsed) cell.onclick = () => openClue(ci, r, key, item, cat);
+
+      if (!isUsed) {
+        cell.onclick = () => openClue(ci, r, key, item, cat);
+      }
+
       board.appendChild(cell);
     });
   }
 }
 
-/* ─── BUILD TEAMS ─── */
 function buildTeams() {
   const list = document.getElementById('teams-list');
   list.innerHTML = '';
+
   TEAMS.forEach((t, i) => {
     const row = document.createElement('div');
     row.className = 'team-row';
     row.style.borderLeftColor = t.color;
+
     row.innerHTML = `
       <div class="team-dot" style="background:${t.color}"></div>
       <div class="team-name">${t.name}</div>
       <div class="team-score" id="score-${i}">$${t.score}</div>
       <div class="team-btns">
-        <button onclick="adjustScore(${i}, currentPts || 100)" title="Award points">+</button>
-        <button onclick="adjustScore(${i}, -(currentPts || 100))" title="Deduct points">−</button>
-      </div>`;
+        <button onclick="adjustScore(${i}, currentPts || 100)">+</button>
+        <button onclick="adjustScore(${i}, -(currentPts || 100))">−</button>
+      </div>
+    `;
+
     list.appendChild(row);
   });
 }
@@ -697,16 +771,15 @@ function adjustScore(i, delta) {
   if (el) el.textContent = '$' + TEAMS[i].score;
 }
 
-/* ─── OPEN CLUE ─── */
 function openClue(ci, ri, key, item, cat) {
   currentItem = item;
-  currentPts  = item.pts;
+  currentPts = item.pts;
 
-  document.getElementById('m-cat').textContent    = cat.name.toUpperCase();
-  document.getElementById('m-pts').textContent    = '$' + item.pts;
-  document.getElementById('m-clue').textContent   = item.clue;
-  document.getElementById('m-dd').style.display   = item.dd ? 'inline-block' : 'none';
-  document.getElementById('m-ans').style.display  = 'none';
+  document.getElementById('m-cat').textContent = cat.name.toUpperCase();
+  document.getElementById('m-pts').textContent = '$' + item.pts;
+  document.getElementById('m-clue').textContent = item.clue;
+  document.getElementById('m-dd').style.display = item.dd ? 'inline-block' : 'none';
+  document.getElementById('m-ans').style.display = 'none';
   document.getElementById('btn-reveal').style.display = 'inline-block';
   document.getElementById('award-section').style.display = 'none';
   document.getElementById('modal-overlay').classList.add('show');
@@ -716,12 +789,13 @@ function openClue(ci, ri, key, item, cat) {
   startModalTimer(30);
 }
 
-/* ─── MODAL TIMER ─── */
 function startModalTimer(secs) {
   clearInterval(modalTimerInterval);
+
   let remaining = secs;
   const fill = document.getElementById('modal-timer-fill');
-  const num  = document.getElementById('modal-timer-num');
+  const num = document.getElementById('modal-timer-num');
+
   fill.style.width = '100%';
   fill.style.background = '#F5C518';
   num.textContent = remaining;
@@ -729,10 +803,13 @@ function startModalTimer(secs) {
   modalTimerInterval = setInterval(() => {
     remaining--;
     num.textContent = remaining;
+
     const pct = (remaining / secs) * 100;
     fill.style.width = pct + '%';
+
     if (pct < 30) fill.style.background = '#E63946';
     else if (pct < 60) fill.style.background = '#FF6B35';
+
     if (remaining <= 0) {
       clearInterval(modalTimerInterval);
       num.textContent = '0';
@@ -741,21 +818,22 @@ function startModalTimer(secs) {
   }, 1000);
 }
 
-/* ─── REVEAL ANSWER ─── */
 function revealAnswer() {
   clearInterval(modalTimerInterval);
+
   const item = currentItem;
-  document.getElementById('m-art').textContent    = '"' + item.art + '"';
+
+  document.getElementById('m-art').textContent = '"' + item.art + '"';
   document.getElementById('m-artist').textContent = 'by ' + item.artist;
   document.getElementById('m-phrase').textContent = item.answer;
-  document.getElementById('m-ans').style.display  = 'block';
+  document.getElementById('m-ans').style.display = 'block';
   document.getElementById('btn-reveal').style.display = 'none';
 
-  // Build award buttons
   const aw = document.getElementById('award-teams');
   aw.innerHTML = TEAMS.map((t, i) =>
     `<button class="award-btn" style="background:${t.color}" onclick="awardTeam(${i})">${t.name}</button>`
   ).join('');
+
   document.getElementById('award-section').style.display = 'block';
 }
 
@@ -766,92 +844,67 @@ function awardTeam(i) {
 
 function closeModal() {
   clearInterval(modalTimerInterval);
+
   document.getElementById('modal-overlay').classList.remove('show');
   currentItem = null;
-  // reset board timer label
+
   document.getElementById('timer-label').textContent = 'Pick a clue';
   document.getElementById('timer-count').textContent = '—';
   document.getElementById('timer-bar').style.width = '100%';
   document.getElementById('timer-bar').style.background = '#F5C518';
 }
 
-/* ─── FINAL SCORES ─── */
 function showFinalScores() {
   const sorted = [...TEAMS].sort((a, b) => b.score - a.score);
   const grid = document.getElementById('final-grid');
+
   grid.innerHTML = sorted.map((t, i) => `
-    <div class="final-card ${i===0?'first':''}" style="background:${t.color}22; border-color:${i===0?'#F5C518':t.color+'44'}">
-      ${i===0 ? '<span class="crown">👑</span>' : ''}
+    <div class="final-card ${i === 0 ? 'first' : ''}" style="background:${t.color}22; border-color:${i === 0 ? '#F5C518' : t.color + '44'}">
+      ${i === 0 ? '<span class="crown">👑</span>' : ''}
       <div class="final-rank">${['1st','2nd','3rd','4th','5th','6th'][i]} Place</div>
       <div class="final-tname">${t.name}</div>
       <div class="final-tscore">$${t.score}</div>
-    </div>`).join('');
+    </div>
+  `).join('');
+
   document.getElementById('final-screen').classList.add('show');
   launchConfetti();
 }
 
-/* ─── CONFETTI ─── */
 function launchConfetti() {
   const colors = ['#F5C518','#E63946','#2DC653','#1D70B8','#FF6B35','#7B2D8B','#fff'];
+
   for (let i = 0; i < 80; i++) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'confetti-piece';
       el.style.left = Math.random() * 100 + 'vw';
       el.style.background = colors[Math.floor(Math.random() * colors.length)];
-      el.style.width  = (6 + Math.random() * 8) + 'px';
+      el.style.width = (6 + Math.random() * 8) + 'px';
       el.style.height = (6 + Math.random() * 8) + 'px';
       el.style.animationDuration = (2 + Math.random() * 3) + 's';
-      el.style.animationDelay = '0s';
+
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 5000);
     }, i * 40);
   }
 }
 
-/* ─── RESET ─── */
 function resetGame() {
   used.clear();
   TEAMS.forEach(t => t.score = 0);
   currentItem = null;
-  currentPts  = 0;
+  currentPts = 0;
+
   document.getElementById('final-screen').classList.remove('show');
+
   closeModal();
   buildBoard();
   buildTeams();
 }
 
-/* ─── QR CODE ─── */
-function setupQR() {
-  const url = window.location.href;
-  try {
-    new QRCode(document.getElementById('qrcode'), {
-      text: url,
-      width: 110, height: 110,
-      colorDark: '#0A1628',
-      colorLight: '#F5C518',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-  } catch(e) { console.warn('QR error', e); }
-
-  // Simulate students joining
-  const names = ["Alex","Jordan","Sam","Riley","Morgan","Casey","Drew","Taylor","Quinn","Avery","Blake","Chris"];
-  let idx = 0;
-  const tick = () => {
-    if (idx < names.length) {
-      playerCount++;
-      document.getElementById('player-count').textContent = playerCount + ' student' + (playerCount > 1 ? 's' : '') + ' joined';
-      idx++;
-      setTimeout(tick, 1400 + Math.random() * 2200);
-    }
-  };
-  setTimeout(tick, 2000);
-}
-
-/* ─── INIT ─── */
 buildBoard();
 buildTeams();
-window.addEventListener('load', setupQR);
 </script>
 </body>
 </html>
